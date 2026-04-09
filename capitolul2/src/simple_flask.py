@@ -27,7 +27,17 @@ def ip_method():
 
 @app.route('/subnetmask', methods=['POST'])
 def subnetmask_method():
-    pass
+    req = request.get_json()
+    ip = req['ip']
+    nodes = int(req['noduri'])
+    bdcast_nw_offset = -2
+    host_bits = 0
+    while 2**host_bits + bdcast_nw_offset < nodes:
+        host_bits += 1
+    cidr = 32-host_bits
+    mask = ['1' for i in range(cidr)] + ['0' for i in range(32-cidr)]
+    mask_with_split_bytes = '.'.join([str(int(''.join(mask[i:i+8]),2)) for i in range(0,32,8)])
+    return jsonify({'output':mask_with_split_bytes})
 
 @app.route('/<name>')
 def hello_name(name):

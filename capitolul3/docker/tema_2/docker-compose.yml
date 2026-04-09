@@ -1,0 +1,21 @@
+services:
+        server:
+                image: vpreotesoiu/tema_2:latest
+                volumes:
+                        - ./app:/app
+                tty: true
+                networks:
+                        - dmz
+                sysctls:
+                        - net.ipv4.icmp_echo_ignore_broadcasts=0
+        client:
+                image: vpreotesoiu/tema_2:latest
+                volumes:
+                        - ./app:/app
+                tty: true
+                networks:
+                        - dmz
+                sysctls:
+                        - net.ipv4.icmp_echo_ignore_broadcasts=0
+networks:
+        dmz: {}
